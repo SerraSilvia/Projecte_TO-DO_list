@@ -1,6 +1,4 @@
 # Projecte_TO-DO_list
-# Pastisseria_LaDolça
-
 ## Preparació de l'entorn de desenvolupament
 
 Comandes a seguir:

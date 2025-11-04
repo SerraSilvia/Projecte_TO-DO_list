@@ -15,7 +15,7 @@
                 <h2>Hola <%=username%>!</h2>
                 <p>Estas en el panel de admin</p>
                 <button id="close-session">Cerrar sesión</button>
-                <a href="/protected">Seguir administrando</a>
+                <a href="/lists">Seguir administrando</a>
             </div>
         <% } %>
 
@@ -81,7 +81,7 @@
                         loginSpan.innerText = 'Session iniciada ..Entrando..'
                         loginSpan.style.color = 'green'
                         setTimeout(() => {
-                            window.location.href = '/protected'
+                            window.location.href = '/lists'
                         }, 2000)
                     } else {
                         loginSpan.innerText = 'Error al iniciar session'
@@ -114,7 +114,7 @@
                         registerSpan.innerText = 'Usuario registrado. ..Entrando..'
                         registerSpan.style.color = 'green'
                         setTimeout(() => {
-                            window.location.href = '/protected'
+                            window.location.href = '/lists'
                         }, 2000)
                     } else {
                         registerSpan.innerText = 'Error al registrar usuari'

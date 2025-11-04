@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestor de Llistes - Detall de Llista</title>
+    <link rel="stylesheet" href="/home.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .list-main-content {
+        display: flex;
+        gap: 25px;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .list-image {
+        flex: 0 0 auto;
+        min-width: 250px;
+        text-align: center;
+      }
+      .list-description {
+        flex: 1;
+        background: linear-gradient(135deg, #fff9f3 0%, #ffeef7 100%);
+        border-radius: 20px;
+        padding: 20px;
+        border: 2px solid #f4c2a1;
+        box-shadow: 0 4px 12px rgba(244, 194, 161, 0.2);
+        margin: 0;
+        min-width: 280px;
+      }
+      .list-description h4 {
+        color: #d4746a;
+        font-size: 18px;
+        margin-bottom: 15px;
+        margin-top: 0;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      }
+      .description-content {
+        font-size: 16px;
+        color: #6b4423;
+        line-height: 1.6;
+      }
+      .tasks-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .task-item {
+        background: linear-gradient(45deg, #fff5f0, #ffeef7);
+        margin: 8px 0;
+        padding: 10px 15px;
+        border-radius: 15px;
+        border: 1px solid #f0d0d0;
+        color: #6b4423;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .task-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(212, 116, 106, 0.2);
+        background: linear-gradient(45deg, #fff0f5, #ffe8f0);
+      }
+      .task-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+        transition: left 0.6s ease;
+      }
+      .task-item:hover::before {
+        left: 100%;
+      }
+      .list-card {
+        background: linear-gradient(135deg, #fff9f3 0%, #ffeef7 100%);
+        border-radius: 25px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(244, 194, 161, 0.3);
+        border: 2px solid #f4c2a1;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .list-name {
+        color: #d4746a;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      }
+      .list-image img {
+        border-radius: 20px;
+        border: 3px solid #f0d0d0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        max-width: 100%;
+        height: auto;
+        width: 250px;
+        object-fit: cover;
+      }
+      .content h1 {
+        text-align: center;
+        color: #d4746a;
+        font-size: 28px;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      }
+      .page-header {
+        position: relative;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+      }
+      .page-header h1 {
+        flex-grow: 1;
+      }
+      .back-button {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        text-decoration: none;
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+      .edit-button {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        text-decoration: none;
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+      .edit-form-card {
+        margin-top: 20px;
+      }
+      .kawaii-form {
+        max-width: 100%;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #d4746a;
+        font-weight: 600;
+        font-size: 16px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #f4c2a1;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #fff9f3 0%, #ffeef7 100%);
+        color: #6b4423;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 2px 8px rgba(244, 194, 161, 0.2);
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #d4746a;
+        box-shadow: 0 4px 12px rgba(212, 116, 106, 0.3);
+        background: linear-gradient(135deg, #fff5f0 0%, #ffe8f0 100%);
+      }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .form-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 25px;
+      }
+      .form-buttons .btn {
+        min-width: 120px;
+      }
+      @media (max-width: 768px) {
+        .list-main-content {
+          flex-direction: column;
+          gap: 20px;
+        }
+        .list-image {
+          min-width: auto;
+          align-self: center;
+        }
+        .list-image img {
+          width: 200px;
+        }
+        .list-card {
+          max-width: 90%;
+          padding: 20px;
+        }
+        .back-button,
+        .edit-button {
+          position: static;
+          transform: none;
+          display: block;
+          text-align: center;
+          margin-bottom: 15px;
+          width: fit-content;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .page-header {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+        .form-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        .form-buttons .btn {
+          width: 100%;
+          max-width: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo-header">
+          <img src="/logo_laDolca.png" alt="logo" />
+          <h1>Gestor de Llistes</h1>
+        </div>
+        <button id="logout" class="btn">Tancar sessió</button>
+      </nav>
+    </header>
+    <div class="content">
+      <div class="page-header">
+        <a href="/" class="btn back-button">⬅️ Tornar a Llistes</a>
+        <h1>✨ Detall de la Llista ✨</h1>
+        <button id="editButton" class="btn edit-button">✏️ Editar Llista</button>
+      </div>
+      <div class="grid">
+        <div id="detailsCard" class="card list-card">
+          <h3 class="list-name">📝 <%= list.nom %></h3>
+          <div class="list-main-content">
+            <div class="list-image">
+              <img src="<%= list.img || '/default-list-image.jpg' %>" alt="<%= list.nom %>" />
+            </div>
+            <div class="list-description">
+              <h4>Descripció 📄</h4>
+              <p class="description-content"><%= list.descripcio || 'Aquesta llista no té descripció.' %></p>
+              <% if (list.tasks && list.tasks.length > 0) { %>
+                <h4>Tasques (<%= list.tasks.length %>)</h4>
+                <ul class="tasks-list">
+                  <% list.tasks.forEach(function(task) { %>
+                    <li class="task-item">
+                      <%= task.titol %> (Estat: <%= task.estat %>, Prioritat: <%= task.prioritat %>)
+                    </li>
+                  <% }); %>
+                </ul>
+              <% } else { %>
+                <p>Aquesta llista encara no té tasques.</p>
+              <% } %>
+            </div>
+          </div>
+          <div class="form-buttons" style="margin-top: 20px;">
+            <button id="addTaskButton" class="btn btn-success">➕ Afegir Tasca</button>
+            <button id="deleteListButton" class="btn btn-danger">🗑️ Eliminar Llista</button>
+          </div>
+        </div>
+
+        <div id="editForm" class="card list-card edit-form-card" style="display: none;">
+          <h3 class="list-name">✨ Editar Llista ✨</h3>
+          <form id="listForm" class="kawaii-form">
+            <div class="form-group">
+              <label for="nom">📝 Nom de la llista:</label>
+              <input type="text" id="nom" name="nom" value="<%= list.nom %>" required>
+            </div>
+            <div class="form-group">
+              <label for="descripcio">📄 Descripció:</label>
+              <textarea id="descripcio" name="descripcio" rows="4"><%= list.descripcio %></textarea>
+            </div>
+            <div class="form-buttons">
+              <button type="button" id="cancelButton" class="btn btn-secondary">CANCEL·LAR</button>
+              <button type="submit" class="btn btn-success">GUARDAR CANVIS</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const logoutButton = document.getElementById("logout");
+      const editButton = document.getElementById("editButton");
+      const cancelButton = document.getElementById("cancelButton");
+      const detailsCard = document.getElementById("detailsCard");
+      const editForm = document.getElementById("editForm");
+      const listForm = document.getElementById("listForm");
+      const deleteListButton = document.getElementById("deleteListButton");
+      const addTaskButton = document.getElementById("addTaskButton");
+
+      logoutButton?.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+          const response = await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (response.ok) window.location.href = "/";
+          else alert("Error en tancar sessió.");
+        } catch (error) {
+          alert("Error de xarxa en tancar sessió.");
+        }
+      });
+
+      editButton?.addEventListener("click", (e) => {
+        e.preventDefault();
+        detailsCard.style.display = "none";
+        editForm.style.display = "block";
+        editButton.style.display = "none";
+      });
+
+      cancelButton?.addEventListener("click", (e) => {
+        e.preventDefault();
+        editForm.style.display = "none";
+        detailsCard.style.display = "block";
+        editButton.style.display = "block";
+      });
+
+      listForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(listForm);
+        const listData = {
+          nom: formData.get("nom"),
+          descripcio: formData.get("descripcio"),
+        };
+        try {
+          const response = await fetch(`/api/lists/<%= list.id_list %>`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(listData),
+          });
+          if (response.ok) {
+            alert("Llista actualitzada correctament!");
+            window.location.reload();
+          } else alert("Error en guardar els canvis.");
+        } catch {
+          alert("Error de xarxa en guardar els canvis.");
+        }
+      });
+
+      deleteListButton?.addEventListener("click", async () => {
+        if (confirm("Vols eliminar aquesta llista? Les seves tasques també s'eliminaran.")) {
+          try {
+            const response = await fetch(`/api/lists/<%= list.id_list %>`, { method: "DELETE" });
+            if (response.ok) {
+              alert("Llista eliminada correctament.");
+              window.location.href = "/";
+            } else alert("Error en eliminar la llista.");
+          } catch {
+            alert("Error de xarxa en eliminar la llista.");
+          }
+        }
+      });
+
+      addTaskButton?.addEventListener("click", () => {
+        window.location.href = `/lists/<%= list.id_list %>/tasks/new`;
+      });
+    </script>
+  </body>
+</html>
