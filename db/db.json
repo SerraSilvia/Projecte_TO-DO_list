@@ -1,0 +1,138 @@
+{
+  "lists": [
+    {
+      "id_list": 1,
+      "nom": "Llista de la Compra",
+      "descripcio": "Artículos necesarios para la despensa y el frigorífico esta semana.",
+      "tasks": [
+        {
+          "id_task": 1,
+          "id_list": 1,
+          "creador": "Silvia",
+          "titol": "Comprar leche",
+          "descripcio": "Leche desnatada, 2 litros.",
+          "estat": "pendiente",
+          "prioritat": "alta",
+          "ubicacio": "Supermercado A",
+          "data_limit": "2024-03-15",
+          "data_creacio": "2024-03-10"
+        },
+        {
+          "id_task": 2,
+          "id_list": 1,
+          "creador": "Silvia",
+          "titol": "Fruta fresca",
+          "descripcio": "Manzanas (1kg) y plátanos (1 racimo).",
+          "estat": "pendiente",
+          "prioritat": "media",
+          "ubicacio": "Frutería",
+          "data_limit": "2024-03-15",
+          "data_creacio": "2024-03-10"
+        },
+        {
+          "id_task": 3,
+          "id_list": 1,
+          "creador": "Silvia",
+          "titol": "Pan de molde",
+          "descripcio": "Pan integral para tostadas.",
+          "estat": "completada",
+          "prioritat": "baja",
+          "ubicacio": "Panadería",
+          "data_limit": "2024-03-12",
+          "data_creacio": "2024-03-09"
+        },
+        {
+          "id_task": 4,
+          "id_list": 1,
+          "creador": "Silvia",
+          "titol": "Aceite de oliva",
+          "descripcio": "Botella de 1 litro de aceite de oliva virgen extra.",
+          "estat": "pendiente",
+          "prioritat": "alta",
+          "ubicacio": "Supermercado A",
+          "data_limit": "2024-03-15",
+          "data_creacio": "2024-03-11"
+        },
+        {
+          "id_task": 5,
+          "id_list": 1,
+          "creador": "Silvia",
+          "titol": "Huevos",
+          "descripcio": "Una docena de huevos camperos, talla M.",
+          "estat": "pendiente",
+          "prioritat": "media",
+          "ubicacio": "Supermercado A",
+          "data_limit": "2024-03-15",
+          "data_creacio": "2024-03-11"
+        }
+      ]
+    },
+    {
+      "id_list": 2,
+      "nom": "Tareas del Hogar",
+      "descripcio": "Actividades de limpieza y mantenimiento para el fin de semana.",
+      "tasks": [
+        {
+          "id_task": 1,
+          "id_list": 2,
+          "creador": "Pol",
+          "titol": "Limpiar el baño",
+          "descripcio": "Limpiar sanitarios, ducha, espejo y suelo.",
+          "estat": "pendiente",
+          "prioritat": "alta",
+          "ubicacio": "Baño principal",
+          "data_limit": "2024-03-16",
+          "data_creacio": "2024-03-10"
+        },
+        {
+          "id_task": 2,
+          "id_list": 2,
+          "creador": "Pol",
+          "titol": "Sacar la basura",
+          "descripcio": "Vaciar cubos de reciclaje y basura orgánica.",
+          "estat": "completada",
+          "prioritat": "alta",
+          "ubicacio": "Cocina y exterior",
+          "data_limit": "2024-03-10",
+          "data_creacio": "2024-03-10"
+        },
+        {
+          "id_task": 3,
+          "id_list": 2,
+          "creador": "Pol",
+          "titol": "Regar las plantas",
+          "descripcio": "Regar todas las plantas de interior y exterior.",
+          "estat": "pendiente",
+          "prioritat": "media",
+          "ubicacio": "Toda la casa",
+          "data_limit": "2024-03-16",
+          "data_creacio": "2024-03-11"
+        },
+        {
+          "id_task": 4,
+          "id_list": 2,
+          "creador": "Pol",
+          "titol": "Organizar el armario",
+          "descripcio": "Reorganizar la ropa del armario de la habitación principal.",
+          "estat": "pendiente",
+          "prioritat": "baja",
+          "ubicacio": "Dormitorio principal",
+          "data_limit": "2024-03-17",
+          "data_creacio": "2024-03-11"
+        },
+        {
+          "id_task": 5,
+          "id_list": 2,
+          "creador": "Pol",
+          "titol": "Lavar la ropa",
+          "descripcio": "Poner lavadora de ropa blanca y de color.",
+          "estat": "pendiente",
+          "prioritat": "alta",
+          "ubicacio": "Cuarto de la colada",
+          "data_limit": "2024-03-16",
+          "data_creacio": "2024-03-11"
+        }
+      ]
+    }
+  ]
+}

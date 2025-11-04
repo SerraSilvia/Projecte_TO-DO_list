@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "5b0eb53c-ea39-479b-984b-3d737e5c1b16",
+    "username": "admin",
+    "password": "$2b$10$ym1.326qun7FTs.9/jAbC.nm55IfmcxahC4Rb3zlutaHgGEmJnYOq"
+  },
+  {
+    "_id": "5b0eb53c-ea39-479b-914b-3d737e5c1b12",
+    "username": "user",
+    "password": "$2b$10$SFIHAV/OGxQUZG0HeQChMOIfa/ExBvo1MoaAhUxX035g55C8uqOTS"
+  }
+]
