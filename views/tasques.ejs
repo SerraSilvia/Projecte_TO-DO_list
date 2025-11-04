@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tareas de la Lista - <%= list.nom %></title> <%-- El nombre de la lista en el título --%>
+    <link rel="stylesheet" href="/home.css" />
+    <link rel="stylesheet" href="/styles.css" />  
+    <style>
+      /* Estilos generales para el header de la vista de lista */
+      .header-view {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        padding: 0 20px;
+      }
+
+      .header-view h1 {
+        color: #d4746a;
+        font-size: 28px;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .header-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      /* Estilos para las tarjetas de tareas */
+      .task-card { /* Renombrado de .product-card a .task-card */
+        background: linear-gradient(135deg, #fff9f3 0%, #ffeef7 100%);
+        border-radius: 25px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(244, 194, 161, 0.3);
+        border: 2px solid #f4c2a1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .task-name { /* Renombrado de .product-name a .task-name */
+        color: #d4746a;
+        font-size: 20px;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      }
+
+      .task-description {
+          font-size: 14px;
+          color: #6b4423;
+          margin-bottom: 10px;
+          line-height: 1.4;
+      }
+
+      .task-status-priority {
+          font-size: 13px;
+          color: #8c6a49;
+          margin-bottom: 15px;
+      }
+
+      .task-actions { /* Renombrado de .product-actions a .task-actions */
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .header-view {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+
+        .header-buttons {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .header-buttons .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo-header">
+          <img src="/logo_laDolca.png" alt="logo" />
+          <h1>Gestor de Tareas</h1>
+        </div>
+
+        <button id="logout" class="btn">Tancar sessió</button>
+      </nav>
+    </header>
+    <body>
+      <div class="content">
+        <div class="header-view">
+          <h1>Tareas de la Lista: ✨ <%= list.nom %> ✨</h1> <%-- Muestra el nombre de la lista --%>
+          <div class="header-buttons">
+            <a href="/lists/<%= list.id_list %>" class="btn back-button">⬅️ Volver a la Lista</a> <%-- Vuelve al detalle de la lista --%>
+            <a href="/lists/<%= list.id_list %>/tasks/new" class="btn edit-button">➕ Añadir Nueva Tarea</a> <%-- Enlace para añadir tarea a esta lista --%>
+          </div>
+        </div>
+        <div class="grid">
+          <% if (data && data.length > 0) { %>
+            <% data.forEach(task => { %> <%-- Iterar sobre las tareas --%>
+            <div class="card task-card"> <%-- Cambiado de product-card a task-card --%>
+              <h3 class="task-name">📝 <%= task.titol %></h3> <%-- Cambiado de product-name a task-name --%>
+              <p class="task-description"><%= task.descripcio.substring(0, 70) %><%= task.descripcio.length > 70 ? '...' : '' %></p> <%-- Descripción corta --%>
+              <p class="task-status-priority">Estado: <strong><%= task.estat %></strong> | Prioridad: <strong><%= task.prioritat %></strong></p>
+              <div class="task-actions"> <%-- Cambiado de product-actions a task-actions --%>
+                <a href="/tasks/<%=task.id_task %>" class="btn btn-primary"> <%-- Enlace al detalle de la tarea --%>
+                  Ver Detalles
+                </a>
+                <button class="btn btn-danger btn-delete-task" data-id="<%=task.id_task %>" data-list-id="<%= list.id_list %>"> <%-- Cambiado el id del botón y data-id --%>
+                  🗑️ Eliminar Tarea
+                </button>
+              </div>
+            </div>
+            <% }) %>
+          <% } else { %>
+            <p style="text-align: center; width: 100%; color: #6b4423; font-size: 18px; margin-top: 50px;">
+              Esta lista no tiene tareas todavía. ¡Es un buen momento para añadir una!
+            </p>
+          <% } %>
+        </div>
+      </div>
+    </body>
+  </body>
+
+  <script>
+    const logoutButton = document.getElementById("logout");
+    const deleteTaskButtons = document.querySelectorAll(".btn-delete-task"); // Selector actualizado
+
+    // Logout functionality
+    logoutButton?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        const response = await fetch("/api/auth/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          window.location.href = "/";
+        } else {
+          alert("Error al cerrar sesión.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error de red al intentar cerrar sesión.");
+      }
+    });
+
+    // Delete Task functionality
+    deleteTaskButtons.forEach(button => {
+      button.addEventListener("click", async (e) => {
+        e.preventDefault();
+        
+        const taskId = button.getAttribute("data-id");
+        const listId = button.getAttribute("data-list-id"); // Para redirigir correctamente
+        
+        const confirmed = confirm("¿Estás seguro de que quieres eliminar esta tarea? 🗑️😥");
+        
+        if (confirmed) {
+          try {
+            const response = await fetch(`/api/tasks/${taskId}`, { // Ruta de API para tareas
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (response.ok) {
+              alert("Tarea eliminada correctamente.");
+              window.location.href = `/lists/${listId}`; // Recargar la página de la lista padre para mostrar la lista de tareas actualizada
+            } else {
+              const errorText = await response.text();
+              console.error("Error al eliminar la tarea:", errorText);
+              alert("Error al eliminar la tarea. Por favor, inténtalo de nuevo.");
+            }
+          } catch (error) {
+            console.error("Error de red al eliminar la tarea:", error);
+            alert("Error de red al eliminar la tarea. Por favor, inténtalo de nuevo.");
+          }
+        }
+      });
+    });
+  </script>
+</html>

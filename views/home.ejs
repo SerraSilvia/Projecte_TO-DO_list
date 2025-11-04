@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestor de Listas</title>
+    <title>Gestor de Listas de Tareas</title>
     <link rel="stylesheet" href="/home.css" />
     <link rel="stylesheet" href="/styles.css" />
     <style>
+      /* --- Estilos del encabezado (sin cambios significativos) --- */
       .header-view {
         display: flex;
         justify-content: space-between;
@@ -16,7 +17,7 @@
       }
 
       .header-view h1 {
-        color: #d4746a;
+        color: #d4746a; /* Un color distintivo para el título */
         font-size: 28px;
         margin: 0;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -32,14 +33,31 @@
         text-decoration: none;
       }
 
-      /* New styles for list cards */
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for more flexibility */
-        gap: 25px;
+      /* --- Estilos para la sección de listas --- */
+      .content {
         padding: 20px;
         max-width: 1200px;
-        margin: 30px auto;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .main-title {
+        color: #333; /* Color más neutro para el título principal */
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      .description {
+        color: #666;
+        font-size: 18px;
+        margin-bottom: 40px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
       }
 
       .card {
@@ -49,9 +67,9 @@
         overflow: hidden;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         text-align: center;
-        text-decoration: none; /* Ensure anchor doesn't have default underline */
+        text-decoration: none;
         color: inherit;
-        display: flex; /* For better content alignment */
+        display: flex;
         flex-direction: column;
         justify-content: space-between;
       }
@@ -63,7 +81,7 @@
 
       .card img {
         width: 100%;
-        height: 180px; /* Fixed height for consistency */
+        height: 180px; /* Altura fija para las imágenes */
         object-fit: cover;
         border-bottom: 1px solid #eee;
       }
@@ -71,7 +89,7 @@
       .card h2 {
         font-size: 24px;
         color: #d4746a;
-        margin: 15px 0;
+        margin: 15px 0 5px;
         padding: 0 15px;
       }
 
@@ -79,6 +97,26 @@
         font-size: 16px;
         color: #666;
         padding: 0 15px 15px;
+        margin-top: 0;
+      }
+
+      /* Botón de añadir lista */
+      .add-list-button {
+        background-color: #5cb85c; /* Color verde para "añadir" */
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .add-list-button:hover {
+        background-color: #4cae4c;
+        text-decoration: none;
       }
 
       /* Responsive design */
@@ -89,7 +127,13 @@
           text-align: center;
         }
         .grid {
-          grid-template-columns: 1fr; /* Single column on small screens */
+          grid-template-columns: 1fr; /* Una sola columna en móviles */
+        }
+        .main-title {
+            font-size: 28px;
+        }
+        .description {
+            font-size: 16px;
         }
       }
     </style>
@@ -98,9 +142,9 @@
     <header>
       <nav class="navbar">
         <div class="logo-header">
-          <!-- You might want to change this logo/branding -->
+          <!-- Puedes cambiar el logo si ya no es de una pastelería -->
           <img src="/logo_laDolca.png" alt="logo" />
-          <h1>Gestor de Listas</h1>
+          <h1>Gestor de Listas de Tareas</h1>
         </div>
 
         <button id="logout" class="btn">Cerrar sesión</button>
@@ -108,13 +152,15 @@
     </header>
     <div class="content">
       <h1 class="main-title">Tus Listas</h1>
-      <p class="description">Organiza tus tareas y proyectos</p>
+      <p class="description">Organiza tus tareas y proyectos de forma eficiente.</p>
+
       <div class="grid" id="lists-grid">
-        <!-- List cards will be injected here by JavaScript -->
+        <!-- Las tarjetas de las listas se insertarán aquí mediante JavaScript -->
         <p id="loading-message">Cargando listas...</p>
-        <p id="error-message" style="color: red; display: none;">Error al cargar las listas. Inténtalo de nuevo.</p>
+        <p id="error-message" style="color: red; display: none;">Error al cargar las listas. Por favor, inténtalo de nuevo.</p>
       </div>
-      <button class="btn" id="add-list-button" style="margin-top: 30px;">Crear Nueva Lista</button>
+
+      <button id="add-list-button" class="add-list-button">Crear Nueva Lista</button>
     </div>
 
     <script>
@@ -124,84 +170,95 @@
       const errorMessage = document.getElementById("error-message");
       const addListButton = document.getElementById("add-list-button");
 
-      // Handle logout
-      logoutButton?.addEventListener("click", (e) => {
+      // Manejar el cierre de sesión
+      logoutButton?.addEventListener("click", async (e) => {
         e.preventDefault();
-        fetch("/api/auth/logout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((res) => {
-          if (res.ok) {
-            window.location.href = "/";
+        try {
+          const response = await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.ok) {
+            window.location.href = "/"; // Redirigir a la página de inicio
           } else {
-            alert("Error al cerrar sesión.");
+            alert("Error al cerrar sesión. Por favor, inténtalo de nuevo.");
           }
-        });
+        } catch (error) {
+          console.error("Error al cerrar sesión:", error);
+          alert("Error de red al intentar cerrar sesión.");
+        }
       });
 
-      // Function to fetch and display lists
+      // Función para obtener y mostrar las listas
       const fetchAndDisplayLists = async () => {
-        loadingMessage.style.display = 'block';
-        errorMessage.style.display = 'none';
-        listsGrid.innerHTML = ''; // Clear existing content
+        loadingMessage.style.display = 'block'; // Mostrar mensaje de carga
+        errorMessage.style.display = 'none'; // Ocultar mensaje de error
+        listsGrid.innerHTML = ''; // Limpiar el contenido actual del grid
 
         try {
-          const response = await fetch("/api/lists"); // Assuming you have a GET /api/lists endpoint
+          // Asumimos que el endpoint para obtener todas las listas es /api/lists
+          const response = await fetch("/api/lists");
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const lists = await response.json();
 
           if (lists.length === 0) {
-            listsGrid.innerHTML = '<p>No tienes listas. ¡Crea una nueva!</p>';
+            listsGrid.innerHTML = '<p>No tienes listas creadas aún. ¡Crea la primera!</p>';
           } else {
             lists.forEach((list) => {
               const card = document.createElement("a");
-              card.href = `/lists/${list.id}`; // Link to a detail page for the list
+              card.href = `/lists/${list.id_list}`; // Usar id_list para el enlace
               card.classList.add("card");
               card.innerHTML = `
-                <img src="/default-list-image.jpg" alt="${list.name || 'Lista'}" />
-                <h2>${list.name || 'Lista sin nombre'}</h2>
+                <img src="/default-list-image.jpg" alt="${list.nom || 'Lista sin nombre'}" />
+                <h2>${list.nom || 'Lista sin nombre'}</h2>
                 <p>${list.tasks ? list.tasks.length : 0} tareas</p>
+                <p>${list.descripcio || ''}</p> <!-- Mostrar la descripción si existe -->
               `;
               listsGrid.appendChild(card);
             });
           }
         } catch (error) {
-          console.error("Error fetching lists:", error);
-          errorMessage.style.display = 'block';
+          console.error("Error al cargar las listas:", error);
+          errorMessage.style.display = 'block'; // Mostrar mensaje de error
+          listsGrid.innerHTML = ''; // Limpiar el mensaje de carga si hay error
         } finally {
-          loadingMessage.style.display = 'none';
+          loadingMessage.style.display = 'none'; // Ocultar mensaje de carga
         }
       };
 
-      // Call the function when the page loads
+      // Cargar las listas cuando el DOM esté completamente cargado
       document.addEventListener("DOMContentLoaded", fetchAndDisplayLists);
 
-      // Handle "Create New List" button
+      // Manejar la creación de una nueva lista
       addListButton.addEventListener("click", async () => {
         const listName = prompt("Introduce el nombre de la nueva lista:");
-        if (listName) {
+        if (listName && listName.trim() !== '') {
+          const listDescription = prompt("Introduce una breve descripción para la lista (opcional):");
           try {
             const response = await fetch("/api/lists", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ name: listName }), // Assuming your API expects a 'name' field
+              body: JSON.stringify({ nom: listName.trim(), descripcio: listDescription ? listDescription.trim() : '' }),
             });
             if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+              const errorData = await response.json();
+              throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
             }
             const newList = await response.json();
-            alert(`Lista "${newList.name}" creada con éxito!`);
-            fetchAndDisplayLists(); // Refresh the list of lists
+            alert(`Lista "${newList.nom}" creada con éxito!`);
+            fetchAndDisplayLists(); // Volver a cargar las listas para mostrar la nueva
           } catch (error) {
-            console.error("Error creating list:", error);
-            alert("Error al crear la lista.");
+            console.error("Error al crear la lista:", error);
+            alert(`Error al crear la lista: ${error.message || 'Error desconocido'}`);
           }
+        } else if (listName !== null) { // Si el usuario no canceló pero dejó el nombre vacío
+            alert("El nombre de la lista no puede estar vacío.");
         }
       });
     </script>
