@@ -1,0 +1,269 @@
+/* login.css - Estilos Kawaii para Login y Registro */
+
+/* Fuentes - Puedes importar una fuente kawaii de Google Fonts si quieres */
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Nunito:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif; /* Una fuente amigable */
+    background: linear-gradient(135deg, #fce4ec 0%, #e0f2f7 100%); /* Fondo degradado suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Para que los elementos decorativos no generen scroll */
+    position: relative;
+}
+
+/* Pequeños elementos decorativos de fondo (opcional) */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    filter: blur(50px);
+    z-index: 1; /* Asegura que estén detrás del contenido principal */
+}
+
+body::before {
+    width: 200px;
+    height: 200px;
+    background-color: #ffccbc; /* Durazno suave */
+    top: -50px;
+    left: -50px;
+}
+
+body::after {
+    width: 250px;
+    height: 250px;
+    background-color: #bbdefb; /* Azul claro suave */
+    bottom: -70px;
+    right: -70px;
+}
+
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Blanco semitransparente */
+    padding: 30px 40px;
+    border-radius: 30px; /* Bordes muy redondeados */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* Sombra suave y flotante */
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    position: relative; /* Para el z-index */
+    z-index: 10; /* Asegura que el contenedor esté por encima de los elementos decorativos */
+    border: 3px solid #f4c2a1; /* Borde suave */
+}
+
+/* --- SE HA ELIMINADO .tab-buttons y sus estilos --- */
+
+
+/* Estilos para los títulos */
+h2 {
+    color: #d4746a; /* Tu color distintivo */
+    font-family: 'Gochi Hand', cursive; /* Fuente más juguetona para títulos */
+    font-size: 36px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08); /* Sombra de texto suave */
+}
+
+/* Estilos de formularios */
+.form-container {
+    margin-bottom: 20px;
+    /* Añadimos flexbox para que el enlace inferior se alinee abajo */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 350px; /* Altura mínima para que el enlace quede abajo */
+}
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Para que el formulario ocupe el espacio disponible */
+}
+
+
+.form-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    color: #6b4423; /* Un color de texto cálido */
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+    width: calc(100% - 24px); /* Ancho completo menos padding */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ffab91; /* Borde kawaii */
+    border-radius: 15px; /* Bordes suaves */
+    background-color: #fff9f3; /* Fondo ligeramente crema */
+    color: #6b4423;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(255, 171, 145, 0.1); /* Sombra interior sutil */
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus {
+    outline: none;
+    border-color: #d4746a; /* Tu color distintivo al enfocar */
+    box-shadow: 0 0 0 3px rgba(212, 116, 106, 0.2), inset 0 2px 5px rgba(212, 116, 106, 0.15); /* Sombra exterior e interior */
+    background-color: #fff;
+}
+
+/* Estilo para los botones de enviar (Login/Register) */
+.form-container button[type="submit"] {
+    background-color: #5cb85c; /* Verde para acciones positivas */
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 20px; /* Bordes muy redondeados */
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(92, 184, 92, 0.3); /* Sombra de botón */
+    width: 100%;
+    max-width: 250px; /* Ancho máximo para el botón */
+    margin: 20px auto 10px auto; /* Centrar y espaciar */
+    align-self: center; /* Asegura que se centre con flexbox */
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #4cae4c; /* Verde más oscuro al pasar el ratón */
+    transform: translateY(-3px); /* Efecto de "levantar" */
+    box-shadow: 0 10px 25px rgba(76, 174, 76, 0.4);
+}
+
+/* Estilo para los mensajes de éxito/error (span) */
+.form-container span {
+    display: block; /* Para que ocupe su propia línea */
+    margin-top: 5px; /* Ajuste de margen */
+    margin-bottom: 15px; /* Ajuste de margen */
+    font-size: 14px;
+    font-weight: 600;
+    min-height: 18px; /* Para mantener el espacio */
+}
+
+.form-container span[style*="color: green"] {
+    color: #5cb85c !important; /* Asegura el color verde */
+}
+
+.form-container span[style*="color: red"] {
+    color: #d9534f !important; /* Rojo suave */
+}
+
+/* --- NUEVOS ESTILOS PARA LOS ENLACES DE ALTERNANCIA --- */
+.switch-form-text {
+    margin-top: auto; /* Empuja este párrafo al final del flex container */
+    padding-top: 20px; /* Espacio superior */
+    color: #6b4423;
+    font-size: 14px;
+}
+
+.switch-form-text a {
+    color: #d4746a; /* Tu color distintivo para el enlace */
+    text-decoration: underline; /* Subrayado por defecto */
+    font-weight: 600;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.switch-form-text a:hover {
+    color: #c06359; /* Color más oscuro al pasar el ratón */
+    text-decoration: none; /* Quitar subrayado al pasar el ratón para un toque moderno */
+}
+
+
+/* Estilos para el panel de admin si el usuario está logueado */
+.form-container h2 { /* Ya definido arriba */ }
+.form-container p {
+    color: #6b4423;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+#close-session {
+    background-color: #d9534f; /* Rojo suave para cerrar sesión */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(217, 83, 79, 0.2);
+    margin-bottom: 15px;
+}
+
+#close-session:hover {
+    background-color: #c9302c;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(201, 48, 44, 0.3);
+}
+
+.form-container a { /* Este estilo afecta al "Seguir administrando" */
+    display: inline-block; /* Para que el enlace se vea como un botón */
+    background-color: #d4746a; /* Tu color distintivo */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(212, 116, 106, 0.2);
+}
+
+.form-container a:hover {
+    background-color: #c06359;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(192, 99, 89, 0.3);
+}
+
+/* Estilos Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 25px 30px;
+        border-radius: 20px;
+    }
+
+    h2 {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        min-height: 300px; /* Ajuste para móviles */
+    }
+
+    .form-container input {
+        padding: 10px;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .form-container button[type="submit"] {
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 15px;
+        max-width: 100%;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    #close-session, .form-container a {
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 15px;
+    }
+
+    .switch-form-text {
+        padding-top: 15px;
+    }
+}
