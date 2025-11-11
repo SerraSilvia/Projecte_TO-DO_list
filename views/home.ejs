@@ -196,20 +196,55 @@
             font-size: 16px;
         }
       }
+
+      #header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn {
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 12px 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+.btn-success {
+  background-color: #5cb85c;
+  color: white;
+  box-shadow: 0 8px 20px rgba(92, 184, 92, 0.3);
+}
+.btn-success:hover {
+  background-color: #4cae4c;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(76, 174, 76, 0.4);
+}
+.btn-danger {
+  background-color: #d9534f;
+  color: white;
+  box-shadow: 0 5px 15px rgba(217, 83, 79, 0.2);
+}
+.btn-danger:hover {
+  background-color: #c9302c;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(201, 48, 44, 0.3);
+}
     </style>
   </head>
   <body>
     <header class="main-header">
       <nav class="navbar">
         <div class="logo-header">
-          <img src="../public/logo.png" alt="logo" />
+          <img src="/logo.png" alt="logo" />
           <h1>Gestor de Listas de Tareas</h1>
         </div>
         <div id="header-buttons">
-          <button id="go-to-lists" class="add-list-button" style="margin: 0 10px;">Ver mis listas</button>
-          <button id="show-new-list-form" class="add-list-button" style="background-color:#d4746a; margin: 0 10px;">Nueva lista</button>
+          <button id="go-to-lists" class="btn btn-success" style="margin: 0 10px;">Ver mis listas</button>
+          <button id="logout" class="btn btn-danger" style="margin: 0 10px;">Cerrar sesión</button>
         </div>
-        <button id="logout" class="btn">Cerrar sesión</button>
       </nav>
     </header>
     <div class="container" style="margin-top:110px;">
@@ -311,18 +346,14 @@
         }
       });
 
+      // Solo mostrar el botón 'Ver mis listas' si NO estamos en la vista de listas
       function updateHeaderButtons() {
         const hash = window.location.hash;
         const btnLists = document.getElementById('go-to-lists');
-        const btnNew = document.getElementById('show-new-list-form');
         if (hash === '#nueva-lista') {
           btnLists.style.display = 'inline-block';
-          btnNew.style.display = 'none';
-          document.getElementById('new-list-form-container').style.display = 'block';
         } else {
           btnLists.style.display = 'none';
-          btnNew.style.display = 'inline-block';
-          document.getElementById('new-list-form-container').style.display = 'none';
         }
       }
       updateHeaderButtons();

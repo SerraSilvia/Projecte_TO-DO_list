@@ -5,147 +5,240 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor de Llistes - Detall de Llista</title>
     <link rel="stylesheet" href="/home.css" />
-    <link rel="stylesheet" href="../public/styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90px;
+      }
+      .navbar {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        height: 90px;
+      }
+      .logo-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .logo-header img {
+        height: 60px;
+        width: auto;
+        border-radius: 15px;
+        background: #fff;
+        border: 2px solid #f4c2a1;
+        box-shadow: 0 2px 8px rgba(244, 194, 161, 0.15);
+      }
+      #header-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .btn {
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 12px 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-success {
+        background-color: #5cb85c;
+        color: white;
+        box-shadow: 0 8px 20px rgba(92, 184, 92, 0.3);
+      }
+      .btn-success:hover {
+        background-color: #4cae4c;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(76, 174, 76, 0.4);
+      }
+      .btn-danger {
+        background-color: #d9534f;
+        color: white;
+        box-shadow: 0 5px 15px rgba(217, 83, 79, 0.2);
+      }
+      .btn-danger:hover {
+        background-color: #c9302c;
+        transform: translateY(-2px);
+        box-shadow: 0 7px 20px rgba(201, 48, 44, 0.3);
+      }
+      @media (max-width: 600px) {
+        .main-header,
+        .navbar {
+          height: 70px;
+          padding: 0 10px;
+        }
+        .logo-header img {
+          height: 40px;
+        }
+        #header-buttons {
+          flex-direction: column;
+          gap: 5px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <header>
+    <header class="main-header">
       <nav class="navbar">
         <div class="logo-header">
-          <h1>Gestor de Llistes</h1>
+          <img src="/logo.png" alt="logo" />
         </div>
-        <button id="logout" class="btn">Tancar sessió</button>
+        <div id="header-buttons">
+          <a href="/lists" class="btn btn-success" style="margin: 0 10px;">Tornar a llistes</a>
+          <button id="logout" class="btn btn-danger" style="margin: 0 10px;">Tancar sessió</button>
+        </div>
       </nav>
     </header>
-    <div class="content">
-      <div class="page-header">
-        <a href="/" class="btn back-button">⬅️ Tornar a Llistes</a>
-        <h1>✨ Detall de la Llista ✨</h1>
-        <button id="editButton" class="btn edit-button">✏️ Editar Llista</button>
-      </div>
-      <div class="grid">
-        <div id="detailsCard" class="card list-card">
-          <h3 class="list-name">📝 <%= list.nom %></h3>
-          <div class="list-main-content">
-            <div class="list-description">
-              <h4>Descripció 📄</h4>
-              <p class="description-content"><%= list.descripcio || 'Aquesta llista no té descripció.' %></p>
-              <% if (list.tasks && list.tasks.length > 0) { %>
-                <h4>Tasques (<%= list.tasks.length %>)</h4>
-                <ul class="tasks-list">
-                  <% list.tasks.forEach(function(task) { %>
-                    <li class="task-item">
-                      <%= task.titol %> (Estat: <%= task.estat %>, Prioritat: <%= task.prioritat %>)
-                    </li>
-                  <% }); %>
-                </ul>
-              <% } else { %>
-                <p>Aquesta llista encara no té tasques.</p>
-              <% } %>
-            </div>
-          </div>
-          <div class="form-buttons">
-            <button id="addTaskButton" class="btn btn-success">➕ Afegir Tasca</button>
-            <button id="deleteListButton" class="btn btn-danger">🗑️ Eliminar Llista</button>
-          </div>
+    <div class="container" style="margin-top: 110px;">
+      <div class="content">
+        <div class="page-header">
+          <a href="/" class="btn back-button">⬅️ Tornar a Llistes</a>
+          <h1>✨ Detall de la Llista ✨</h1>
+          <button id="editButton" class="btn edit-button">✏️ Editar Llista</button>
         </div>
-
-        <div id="editForm" class="card list-card edit-form-card" style="display: none;">
-          <h3 class="list-name">✨ Editar Llista ✨</h3>
-          <form id="listForm" class="kawaii-form">
-            <div class="form-group">
-              <label for="nom">📝 Nom de la llista:</label>
-              <input type="text" id="nom" name="nom" value="<%= list.nom %>" required>
-            </div>
-            <div class="form-group">
-              <label for="descripcio">📄 Descripció:</label>
-              <textarea id="descripcio" name="descripcio" rows="4"><%= list.descripcio %></textarea>
+        <div class="grid">
+          <div id="detailsCard" class="card list-card">
+            <h3 class="list-name">📝 <%= list.nom %></h3>
+            <div class="list-main-content">
+              <div class="list-description">
+                <h4>Descripció 📄</h4>
+                <p class="description-content"><%= list.descripcio || 'Aquesta llista no té descripció.' %></p>
+                <% if (list.tasks && list.tasks.length > 0) { %>
+                  <h4>Tasques (<%= list.tasks.length %>)</h4>
+                  <ul class="tasks-list">
+                    <% list.tasks.forEach(function(task) { %>
+                      <li class="task-item">
+                        <%= task.titol %> (Estat: <%= task.estat %>, Prioritat: <%= task.prioritat %>)
+                      </li>
+                    <% }); %>
+                  </ul>
+                <% } else { %>
+                  <p>Aquesta llista encara no té tasques.</p>
+                <% } %>
+              </div>
             </div>
             <div class="form-buttons">
-              <button type="button" id="cancelButton" class="btn btn-secondary">CANCEL·LAR</button>
-              <button type="submit" class="btn btn-success">GUARDAR CANVIS</button>
+              <button id="addTaskButton" class="btn btn-success">➕ Afegir Tasca</button>
+              <button id="deleteListButton" class="btn btn-danger">🗑️ Eliminar Llista</button>
             </div>
-          </form>
+          </div>
+
+          <div id="editForm" class="card list-card edit-form-card" style="display: none;">
+            <h3 class="list-name">✨ Editar Llista ✨</h3>
+            <form id="listForm" class="kawaii-form">
+              <div class="form-group">
+                <label for="nom">📝 Nom de la llista:</label>
+                <input type="text" id="nom" name="nom" value="<%= list.nom %>" required>
+              </div>
+              <div class="form-group">
+                <label for="descripcio">📄 Descripció:</label>
+                <textarea id="descripcio" name="descripcio" rows="4"><%= list.descripcio %></textarea>
+              </div>
+              <div class="form-buttons">
+                <button type="button" id="cancelButton" class="btn btn-secondary">CANCEL·LAR</button>
+                <button type="submit" class="btn btn-success">GUARDAR CANVIS</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
 
-    <script>
-      const logoutButton = document.getElementById("logout");
-      const editButton = document.getElementById("editButton");
-      const cancelButton = document.getElementById("cancelButton");
-      const detailsCard = document.getElementById("detailsCard");
-      const editForm = document.getElementById("editForm");
-      const listForm = document.getElementById("listForm");
-      const deleteListButton = document.getElementById("deleteListButton");
-      const addTaskButton = document.getElementById("addTaskButton");
+      <script>
+        const logoutButton = document.getElementById("logout");
+        const editButton = document.getElementById("editButton");
+        const cancelButton = document.getElementById("cancelButton");
+        const detailsCard = document.getElementById("detailsCard");
+        const editForm = document.getElementById("editForm");
+        const listForm = document.getElementById("listForm");
+        const deleteListButton = document.getElementById("deleteListButton");
+        const addTaskButton = document.getElementById("addTaskButton");
 
-      logoutButton?.addEventListener("click", async (e) => {
-        e.preventDefault();
-        try {
-          const response = await fetch("/api/auth/logout", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-          });
-          if (response.ok) window.location.href = "/";
-          else alert("Error en tancar sessió.");
-        } catch {
-          alert("Error de xarxa en tancar sessió.");
-        }
-      });
-
-      editButton?.addEventListener("click", (e) => {
-        e.preventDefault();
-        detailsCard.style.display = "none";
-        editForm.style.display = "block";
-        editButton.style.display = "none";
-      });
-
-      cancelButton?.addEventListener("click", (e) => {
-        e.preventDefault();
-        editForm.style.display = "none";
-        detailsCard.style.display = "block";
-        editButton.style.display = "block";
-      });
-
-      listForm?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData(listForm);
-        const listData = {
-          nom: formData.get("nom"),
-          descripcio: formData.get("descripcio"),
-        };
-        try {
-          const response = await fetch(`/api/lists/<%= list.id_list %>`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(listData),
-          });
-          if (response.ok) {
-            alert("Llista actualitzada correctament!");
-            window.location.reload();
-          } else alert("Error en guardar els canvis.");
-        } catch {
-          alert("Error de xarxa en guardar els canvis.");
-        }
-      });
-
-      deleteListButton?.addEventListener("click", async () => {
-        if (confirm("Vols eliminar aquesta llista? Les seves tasques també s'eliminaran.")) {
+        logoutButton?.addEventListener("click", async (e) => {
+          e.preventDefault();
           try {
-            const response = await fetch(`/api/lists/<%= list.id_list %>`, { method: "DELETE" });
-            if (response.ok) {
-              alert("Llista eliminada correctament.");
-              window.location.href = "/";
-            } else alert("Error en eliminar la llista.");
+            const response = await fetch("/api/auth/logout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+            });
+            if (response.ok) window.location.href = "/";
+            else alert("Error en tancar sessió.");
           } catch {
-            alert("Error de xarxa en eliminar la llista.");
+            alert("Error de xarxa en tancar sessió.");
           }
-        }
-      });
+        });
 
-      addTaskButton?.addEventListener("click", () => {
-        window.location.href = `/lists/<%= list.id_list %>/tasks/new`;
-      });
-    </script>
+        editButton?.addEventListener("click", (e) => {
+          e.preventDefault();
+          detailsCard.style.display = "none";
+          editForm.style.display = "block";
+          editButton.style.display = "none";
+        });
+
+        cancelButton?.addEventListener("click", (e) => {
+          e.preventDefault();
+          editForm.style.display = "none";
+          detailsCard.style.display = "block";
+          editButton.style.display = "block";
+        });
+
+        listForm?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(listForm);
+          const listData = {
+            nom: formData.get("nom"),
+            descripcio: formData.get("descripcio"),
+          };
+          try {
+            const response = await fetch(`/api/lists/<%= list.id_list %>`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(listData),
+            });
+            if (response.ok) {
+              alert("Llista actualitzada correctament!");
+              window.location.reload();
+            } else alert("Error en guardar els canvis.");
+          } catch {
+            alert("Error de xarxa en guardar els canvis.");
+          }
+        });
+
+        deleteListButton?.addEventListener("click", async () => {
+          if (confirm("Vols eliminar aquesta llista? Les seves tasques també s'eliminaran.")) {
+            try {
+              const response = await fetch(`/api/lists/<%= list.id_list %>`, { method: "DELETE" });
+              if (response.ok) {
+                alert("Llista eliminada correctament.");
+                window.location.href = "/";
+              } else alert("Error en eliminar la llista.");
+            } catch {
+              alert("Error de xarxa en eliminar la llista.");
+            }
+          }
+        });
+
+        addTaskButton?.addEventListener("click", () => {
+          window.location.href = `/lists/<%= list.id_list %>/tasks/new`;
+        });
+      </script>
+    </div>
   </body>
 </html>
