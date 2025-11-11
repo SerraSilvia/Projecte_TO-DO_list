@@ -22,9 +22,7 @@
         <button id="close-session">Cerrar sesión</button>
         <a href="/lists">Seguir administrando</a>
       </div>
-      <% } %>
-
-      <% if (typeof username==='undefined' ) { %>
+      <% } %> <% if (typeof username==='undefined' ) { %>
       <!-- Los botones de pestaña ahora son enlaces dentro de cada formulario -->
       <!-- y NO están en la sección .tab-buttons superior -->
 
@@ -81,120 +79,129 @@
 
     <script>
       const $ = (el) => document.querySelector(el);
-      const loginForm = $('#login-form');
-      const loginSpan = $('#login-form span');
+      const loginForm = $("#login-form");
+      const loginSpan = $("#login-form span");
 
-      const registerForm = $('#register-form');
-      const registerSpan = $('#register-form span');
+      const registerForm = $("#register-form");
+      const registerSpan = $("#register-form span");
 
-      const logoutButton = $('#close-session');
+      const logoutButton = $("#close-session");
 
       // Elementos para el control de visibilidad
-      const loginSection = $('#login-section');
-      const registerSection = $('#register-section');
+      const loginSection = $("#login-section");
+      const registerSection = $("#register-section");
 
       // NUEVOS IDs para los enlaces de alternancia
-      const goToRegisterLink = $('#go-to-register');
-      const goToLoginLink = $('#go-to-login');
+      const goToRegisterLink = $("#go-to-register");
+      const goToLoginLink = $("#go-to-login");
 
       // Funciones para alternar vistas (simplificadas sin manejar clases 'active' en botones superiores)
       const showLogin = () => {
-        loginSection.classList.remove('hidden');
-        registerSection.classList.add('hidden');
-        if (loginSpan) loginSpan.innerText = '\u00A0';
-        if (registerSpan) registerSpan.innerText = '\u00A0';
+        loginSection.classList.remove("hidden");
+        registerSection.classList.add("hidden");
+        if (loginSpan) loginSpan.innerText = "\u00A0";
+        if (registerSpan) registerSpan.innerText = "\u00A0";
         if (registerForm) registerForm.reset();
       };
 
       const showRegister = () => {
-        registerSection.classList.remove('hidden');
-        loginSection.classList.add('hidden');
-        if (loginSpan) loginSpan.innerText = '\u00A0';
-        if (registerSpan) registerSpan.innerText = '\u00A0';
+        registerSection.classList.remove("hidden");
+        loginSection.classList.add("hidden");
+        if (loginSpan) loginSpan.innerText = "\u00A0";
+        if (registerSpan) registerSpan.innerText = "\u00A0";
         if (loginForm) loginForm.reset();
       };
 
       // Event listeners para los enlaces de alternancia
-      goToRegisterLink?.addEventListener('click', (e) => {
+      goToRegisterLink?.addEventListener("click", (e) => {
         e.preventDefault(); // Evita que la página salte al #
         showRegister();
       });
 
-      goToLoginLink?.addEventListener('click', (e) => {
+      goToLoginLink?.addEventListener("click", (e) => {
         e.preventDefault(); // Evita que la página salte al #
         showLogin();
       });
 
       // --- Tu JavaScript existente para login/registro/logout (sin cambios aquí) ---
-      loginForm?.addEventListener('submit', (e) => {
+      loginForm?.addEventListener("submit", (e) => {
         e.preventDefault();
-        const username = $('#login-username').value;
-        const password = $('#login-password').value;
+        const username = $("#login-username").value;
+        const password = $("#login-password").value;
 
-        fetch('/api/auth/login', {
-          method: 'POST',
+        fetch("/api/auth/login", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ username, password }),
         }).then((res) => {
           if (res.ok) {
-            loginSpan.innerText = 'Session iniciada ..Entrando..';
-            loginSpan.style.color = 'green';
+            loginSpan.innerText = "Session iniciada ..Entrando..";
+            loginSpan.style.color = "green";
             setTimeout(() => {
-              window.location.href = '/lists';
+              window.location.href = "/lists";
             }, 2000);
           } else {
-            loginSpan.innerText = 'Error al iniciar session';
-            loginSpan.style.color = 'red';
+            loginSpan.innerText = "Error al iniciar session";
+            loginSpan.style.color = "red";
           }
         });
       });
 
-      registerForm?.addEventListener('submit', (e) => {
+      registerForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const username = $('#register-username').value;
-        const password = $('#register-password').value;
-        const confirmPassword = $('#register-confirm-password').value;
+        const username = $("#register-username").value;
+        const password = $("#register-password").value;
+        const confirmPassword = $("#register-confirm-password").value;
 
-        if (password != confirmPassword) {
-          alert('Passwords do not match');
-          registerSpan.innerText = 'Las contraseñas no coinciden';
-          registerSpan.style.color = 'red';
+        if (password.length < 6) {
+          registerSpan.innerText = "La contraseña debe tener mínimo 6 caracteres";
+          registerSpan.style.color = "red";
           return;
         }
 
-        fetch('/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        }).then((res) => {
-          console.log(res);
+        if (password != confirmPassword) {
+          registerSpan.innerText = "Las contraseñas no coinciden";
+          registerSpan.style.color = "red";
+          return;
+        }
+
+        try {
+          const res = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
           if (res.ok) {
-            registerSpan.innerText = 'Usuario registrado. ..Entrando..';
-            registerSpan.style.color = 'green';
+            registerSpan.innerText = "Usuario registrado. ..Entrando..";
+            registerSpan.style.color = "green";
             setTimeout(() => {
-              window.location.href = '/lists';
+              window.location.href = "/home";
             }, 2000);
           } else {
-            registerSpan.innerText = 'Error al registrar usuari';
-            registerSpan.style.color = 'red';
+            const errorText = await res.text();
+            registerSpan.innerText = errorText || "Error al registrar usuario";
+            registerSpan.style.color = "red";
           }
-        });
+        } catch (err) {
+          registerSpan.innerText = "Error de conexión con el servidor";
+          registerSpan.style.color = "red";
+        }
       });
 
-      logoutButton?.addEventListener('click', (e) => {
+      logoutButton?.addEventListener("click", (e) => {
         e.preventDefault();
-        fetch('/logout', {
-          method: 'POST',
+        fetch("/logout", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }).then((res) => {
           console.log(res);
-          window.location.href = '/';
+          window.location.href = "/";
         });
       });
     </script>

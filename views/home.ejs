@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestor de Listas de Tareas</title>
+    <meta charset="UTF-8">
+    <title>Panel de usuario - Home</title>
+    <link rel="stylesheet" href="/login.css">
     <link rel="stylesheet" href="/home.css" />
     <link rel="stylesheet" href="/styles.css" />
     <style>
@@ -115,6 +115,70 @@
         text-decoration: none;
       }
 
+      /* Header styles */
+      .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 100;
+        background: rgba(255,255,255,0.95);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90px;
+      }
+      .navbar {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        height: 90px;
+      }
+      .logo-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .logo-header img {
+        height: 60px;
+        width: auto;
+        border-radius: 15px;
+        background: #fff;
+        border: 2px solid #f4c2a1;
+        box-shadow: 0 2px 8px rgba(244, 194, 161, 0.15);
+      }
+      .logo-header h1 {
+        font-size: 28px;
+        color: #d4746a;
+        font-family: 'Gochi Hand', cursive;
+        margin: 0;
+      }
+      #header-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      @media (max-width: 600px) {
+        .main-header, .navbar {
+          height: 70px;
+          padding: 0 10px;
+        }
+        .logo-header img {
+          height: 40px;
+        }
+        .logo-header h1 {
+          font-size: 18px;
+        }
+        #header-buttons {
+          flex-direction: column;
+          gap: 5px;
+        }
+      }
+
       /* Responsive design */
       @media (max-width: 768px) {
         .header-view {
@@ -135,35 +199,48 @@
     </style>
   </head>
   <body>
-    <header>
+    <header class="main-header">
       <nav class="navbar">
         <div class="logo-header">
           <img src="../public/logo.png" alt="logo" />
           <h1>Gestor de Listas de Tareas</h1>
         </div>
-
+        <div id="header-buttons">
+          <button id="go-to-lists" class="add-list-button" style="margin: 0 10px;">Ver mis listas</button>
+          <button id="show-new-list-form" class="add-list-button" style="background-color:#d4746a; margin: 0 10px;">Nueva lista</button>
+        </div>
         <button id="logout" class="btn">Cerrar sesión</button>
       </nav>
     </header>
-    <div class="content">
-      <h1 class="main-title">Tus Listas</h1>
-      <p class="description">Organiza tus tareas y proyectos de forma eficiente.</p>
-
-      <div class="grid" id="lists-grid">
-        <!-- Las tarjetas de las listas se insertarán aquí mediante JavaScript -->
-        <p id="loading-message">Cargando listas...</p>
-        <p id="error-message" style="color: red; display: none;">Error al cargar las listas. Por favor, inténtalo de nuevo.</p>
+    <div class="container" style="margin-top:110px;">
+      <div class="content">
+        <div class="intro-section" style="margin-bottom: 40px;">
+          <h1 class="main-title">Bienvenido/a a tu Gestor de Listas de Tareas</h1>
+          <p class="description">Organiza tus tareas, proyectos y listas de la forma más sencilla y visual. Crea listas, añade tareas y mantén tu día a día bajo control con un solo clic.</p>
+        </div>
+        <div id="new-list-form-container" class="form-container" style="max-width: 500px; margin: 0 auto; display: none;">
+          <h3 style="color: #d4746a;">Crear nueva lista</h3>
+          <form id="new-list-form" method="POST" action="/api/lists">
+            <div class="form-group">
+              <label for="nom">Nombre de la lista:</label>
+              <input type="text" id="nom" name="nom" required>
+            </div>
+            <div class="form-group">
+              <label for="descripcio">Descripción:</label>
+              <textarea id="descripcio" name="descripcio" required style="min-height: 60px;"></textarea>
+            </div>
+            <button type="submit">Crear lista</button>
+          </form>
+          <span id="form-message"></span>
+          <div id="detalle-lista" style="margin-top:20px; display:none;"></div>
+        </div>
       </div>
-
-      <button id="add-list-button" class="add-list-button">Crear Nueva Lista</button>
     </div>
-
     <script>
       const logoutButton = document.getElementById("logout");
       const listsGrid = document.getElementById("lists-grid");
       const loadingMessage = document.getElementById("loading-message");
       const errorMessage = document.getElementById("error-message");
-      const addListButton = document.getElementById("add-list-button");
 
       // Manejar el cierre de sesión
       logoutButton?.addEventListener("click", async (e) => {
@@ -226,34 +303,69 @@
       };
 
       // Cargar las listas cuando el DOM esté completamente cargado
-      document.addEventListener("DOMContentLoaded", fetchAndDisplayLists);
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchAndDisplayLists();
+        if (window.location.hash === "#nueva-lista") {
+          document.getElementById('new-list-form-container').style.display = 'block';
+          window.scrollTo({ top: document.getElementById('new-list-form-container').offsetTop - 30, behavior: 'smooth' });
+        }
+      });
 
-      // Manejar la creación de una nueva lista
-      addListButton.addEventListener("click", async () => {
-        const listName = prompt("Introduce el nombre de la nueva lista:");
-        if (listName && listName.trim() !== '') {
-          const listDescription = prompt("Introduce una breve descripción para la lista (opcional):");
-          try {
-            const response = await fetch("/api/lists", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ nom: listName.trim(), descripcio: listDescription ? listDescription.trim() : '' }),
-            });
-            if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
-            }
-            const newList = await response.json();
-            alert(`Lista "${newList.nom}" creada con éxito!`);
-            fetchAndDisplayLists(); // Volver a cargar las listas para mostrar la nueva
-          } catch (error) {
-            console.error("Error al crear la lista:", error);
-            alert(`Error al crear la lista: ${error.message || 'Error desconocido'}`);
+      function updateHeaderButtons() {
+        const hash = window.location.hash;
+        const btnLists = document.getElementById('go-to-lists');
+        const btnNew = document.getElementById('show-new-list-form');
+        if (hash === '#nueva-lista') {
+          btnLists.style.display = 'inline-block';
+          btnNew.style.display = 'none';
+          document.getElementById('new-list-form-container').style.display = 'block';
+        } else {
+          btnLists.style.display = 'none';
+          btnNew.style.display = 'inline-block';
+          document.getElementById('new-list-form-container').style.display = 'none';
+        }
+      }
+      updateHeaderButtons();
+      window.addEventListener('hashchange', updateHeaderButtons);
+      document.getElementById('go-to-lists').onclick = () => {
+        window.location.hash = '';
+        updateHeaderButtons();
+      };
+      document.getElementById('show-new-list-form').onclick = () => {
+        window.location.hash = 'nueva-lista';
+        updateHeaderButtons();
+      };
+      // Envío por AJAX para evitar recarga
+      const form = document.getElementById('new-list-form');
+      const msg = document.getElementById('form-message');
+      const detalleDiv = document.getElementById('detalle-lista');
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nom = document.getElementById('nom').value;
+        const descripcio = document.getElementById('descripcio').value;
+        try {
+          const res = await fetch('/api/lists', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom, descripcio })
+          });
+          if (res.ok) {
+            const nuevaLista = await res.json();
+            msg.innerText = 'Lista creada correctamente';
+            msg.style.color = 'green';
+            form.reset();
+            detalleDiv.innerHTML = `<a href="/lists/${nuevaLista.id_list}" class="btn btn-primary" style="margin-top:15px;">Ver detalles de la nueva lista</a>`;
+            detalleDiv.style.display = 'block';
+          } else {
+            const errorText = await res.text();
+            msg.innerText = errorText || 'Error al crear la lista';
+            msg.style.color = 'red';
+            detalleDiv.style.display = 'none';
           }
-        } else if (listName !== null) { // Si el usuario no canceló pero dejó el nombre vacío
-            alert("El nombre de la lista no puede estar vacío.");
+        } catch (err) {
+          msg.innerText = 'Error de conexión con el servidor';
+          msg.style.color = 'red';
+          detalleDiv.style.display = 'none';
         }
       });
     </script>

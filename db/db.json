@@ -133,6 +133,18 @@
           "data_creacio": "2024-03-11"
         }
       ]
+    },
+    {
+      "id_list": 3,
+      "nom": "sabado",
+      "descripcio": "sabadete",
+      "tasks": []
+    },
+    {
+      "id_list": 4,
+      "nom": "comprar patatas",
+      "descripcio": "quiero una bolsa de jumpers",
+      "tasks": []
     }
   ]
 }

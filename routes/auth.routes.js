@@ -3,6 +3,7 @@ import { UserRepository } from '../user-repository.js';
 import jwt from 'jsonwebtoken';
 import { SECRET_JWT_KEY } from "../config.js";
 
+
 const authRouter = Router();
 
 /* Ruta para cargar la vista de login */
@@ -43,14 +44,32 @@ authRouter.post('/login', async (req, res) => {
 
 /* Ruta para manejar el registro */
 authRouter.post('/register', async (req, res) => {
-    const { username, password } = req.body
+  const { username, password } = req.body;
 
-    try {
-        const id = await UserRepository.create({ username, password });
-        res.send({ id })
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+  try {
+    // Crear usuario
+    const newUser = await UserRepository.create({ username, password });
+
+    // Generar token como en login
+    const token = jwt.sign(
+      { id: newUser._id, username: newUser.username },
+      SECRET_JWT_KEY,
+      { expiresIn: '1h' }
+    );
+
+    // Guardamos cookie y respondemos
+    res
+      .cookie('access_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 60
+      })
+      .send({ id: newUser._id, token });
+
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 

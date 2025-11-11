@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <header>
+    <header class="main-header">
       <nav class="navbar">
         <div class="logo-header">
           <img src="/logo_laDolca.png" alt="logo" />
@@ -18,36 +18,92 @@
         <button id="logout" class="btn">Tancar sessió</button>
       </nav>
     </header>
+    <div class="container" style="margin-top:110px;">
+      <div class="content">
+        <div class="page-header">
+          <h1>Les meves llistes ✨</h1>
+          <a href="/home#nueva-lista" class="btn edit-button">Nova llista</a>
+        </div>
 
-    <div class="content">
-      <div class="page-header">
-        <h1>Les meves llistes ✨</h1>
-        <a href="/lists/new" class="btn edit-button">➕ Nova llista</a>
-      </div>
+        <div class="lists-container">
+          <% if (data && data.length > 0) { %>
+            <% data.forEach(list => { %>
+              <div class="list-card">
+                <h3 class="list-name">📋 <%= list.nom %></h3>
 
-      <div class="lists-container">
-        <% if (data && data.length > 0) { %>
-          <% data.forEach(list => { %>
-            <div class="list-card">
-              <h3 class="list-name">📋 <%= list.nom %></h3>
+                <div class="list-image">
+                  <img src="<%= list.img || '/default-list-image.jpg' %>" alt="<%= list.nom %>" />
+                </div>
 
-              <div class="list-image">
-                <img src="<%= list.img || '/default-list-image.jpg' %>" alt="<%= list.nom %>" />
+                <div class="list-actions">
+                  <a href="/lists/<%= list.id_list %>" class="btn btn-primary">Veure tasques</a>
+                  <button class="btn btn-danger btn-delete-list" data-id="<%= list.id_list %>">
+                    🗑️ Eliminar
+                  </button>
+                </div>
               </div>
-
-              <div class="list-actions">
-                <a href="/lists/<%= list.id_list %>" class="btn btn-primary">Veure tasques</a>
-                <button class="btn btn-danger btn-delete-list" data-id="<%= list.id_list %>">
-                  🗑️ Eliminar
-                </button>
-              </div>
-            </div>
-          <% }) %>
-        <% } else { %>
-          <p style="text-align:center; color:#6b4423;">No tens cap llista creada encara.</p>
-        <% } %>
+            <% }) %>
+          <% } else { %>
+            <p style="text-align:center; color:#6b4423;">No tens cap llista creada encara.</p>
+          <% } %>
+        </div>
       </div>
     </div>
+    <style>
+      .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 100;
+        background: rgba(255,255,255,0.95);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90px;
+      }
+      .navbar {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        height: 90px;
+      }
+      .logo-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .logo-header img {
+        height: 60px;
+        width: auto;
+        border-radius: 15px;
+        background: #fff;
+        border: 2px solid #f4c2a1;
+        box-shadow: 0 2px 8px rgba(244, 194, 161, 0.15);
+      }
+      .logo-header h1 {
+        font-size: 28px;
+        color: #d4746a;
+        font-family: 'Gochi Hand', cursive;
+        margin: 0;
+      }
+      @media (max-width: 600px) {
+        .main-header, .navbar {
+          height: 70px;
+          padding: 0 10px;
+        }
+        .logo-header img {
+          height: 40px;
+        }
+        .logo-header h1 {
+          font-size: 18px;
+        }
+      }
+    </style>
 
     <script>
       const logoutButton = document.getElementById("logout");
