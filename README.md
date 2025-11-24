@@ -1,154 +1,87 @@
-# Projecte_TO-DO_list
-## Preparació de l'entorn de desenvolupament
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/AXvoc75d)
 
-Comandes a seguir:
+# Registre de Litúrgies:
 
-```bash
-npm init -y
-npm i
-npm i express
-npm i ejs
-npm i nodemon -D    # permet `npm run dev`
-npm i body-parser
-npm i db-local
-npm i jsonwebtoken
-npm i cookie-parser
-npm i crypto
-npm i bcryptjs
-```
+## Sprint 1:
+### Daily scrum 1:
+- Data: 30/09/2025
+- Assistents: Sara Tamurejo, Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Pluja d'idees sobre l'app.
 
-Iniciar el servidor:
+### Daily scrum 2:
+- Data: 06/10/2025
+- Assistents: Sara Tamurejo, Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Posta en comú de tecnologies a emprar.
+    - Diagrama d'arquitectura d'aplicació web.
+    - Estructura de la base de dades.
+    - Buscar servidor web: Alwaysdata.
+    - Buscar com establir conexions a servidor.
 
-```bash
-npm run dev          # si tenim "dev" a package.json
-# o
-node server.js       # si volem executar directament l'arxiu server.js
-```
+### Daily scrum 3:
+- Data: 13/10/2025
+- Assistents: Sara Tamurejo, Pol Paredes.
+- Temes tractats:
+    - Posar el script de la base de dades a Always Data
+    - Intentar connectar amb la base d'Always data al nostre repositori
+    - Intentar fer alguna consulta.
 
-Afegir a `package.json`:
+### Daily scrum 4:
+- Data: 14/10/2025
+- Assistents: Sara Tamurejo, Silvia Serra.
+- Temes tractats:
+    - Conectar a base de dades en local.
+    - Descartar pel moment l'ús de base de dades remota.
+    - Assegurar contingut per treballar.
 
-```json
-"scripts": {
-  "dev": "nodemon index.js",
-  "start": "node server.js"
-},
-"main": "index.js",
-"type": "module"
-```
----
+### Retrospectiva Sprint nº1 15/09 - 30/09
 
-## 1. mainRouter:
+- Sprint Retrospective grupal: 
+    - Quin era el MVP proposat a l’inici de l’sprint? Quin MVP podem mostrar al final del sprint? 
+        La proposta era veure una llista amb les seves tasques i que aquestes es poguéssin modificar.
+    - Millor o pitjor de lo esperat?	
+        Pitjor. Falta de temps.				
+    - Què canviaries per millorar de cara al proper Sprint?
+        Alguna sessió més, ens falta temps.
 
-- **Funció:** Serveix com a router principal i delega les rutes a `authRouter` i `productsRouter`.
-- **Rutes:**  
-  - `/auth` → gestionat per `authRouter`
-  - `/products` → gestionat per `productsRouter`
+- Sprint Review Silvia:
+    - Què ha anat bé? 
+      La comunicació amb els companys. 		
+    - Què cal millorar? 
+      La puntualitat/ assistència d'algun membre de grup
+    - Què he après?	
+      La gestió de proofhub
+    - En què trobo dificultats?
+      En la coordinació de grup.
 
----
+- Sprint Review Sara:
+    - Què ha anat bé?
+  		Totes les tasques s'han acabat y es mostreb bé y la comunicació entre alguns companys.
+    - Què cal millorar?
+  		Puntualitat, assistència y l'interés per el projecte.
+    - Què he après?
+  		La gestió de ProofHub y a intentar conectar una base de dades usant PDO.
+    - En què trobo dificultats?
+      	En acabar de conectar bé la base de dades.
+					
+## Sprint 2:
+### Daily scrum 6:
+- Data: 20/10/2025
+- Assistents: Sara Tamurejo, Silvia Serra.
+- Temes tractats:
+    - Què incluir a la capçalera.
+    - Què incluir al footer.
+    - Pluja d'idees de css.
+    - Creació de tasques de ProofHub.
 
-## 2. authRouter
+### Daily scrum 7:
+- Data: 21/10/2025
+- Assistents: Sara Tamurejo, Silvia Serra.
+- Temes tractats:
+    - Pluja d'idees de css.
+    - Aplicar css.
+    - Organització d'arxius.
+    - Com editar tasques.
 
-Gestiona l'autenticació i la gestió d'usuaris.
-
-### Rutes
-
-| Mètode | Ruta        | Descripció                                                                |
-|--------|------------|----------------------------------------------------------------------------|
-| GET    | `/login`   | Carrega la vista de login.                                                 |
-| POST   | `/login`   | Autentica l'usuari, genera un JWT i el guarda en una cookie `access_token`.|
-| POST   | `/register`| Registra un nou usuari.                                                    |
-| POST   | `/logout`  | Esborra la cookie `access_token` i tanca sessió.                           |
-
-- Es fa servir **JWT** per a l'autenticació.
-- Les cookies són `httpOnly` i segures en producció.
-
----
-
-## 3. productsRouter
-
-Gestiona les operacions CRUD sobre productes (`galetes`, `pastissos`, `torrons`) llegint i escrivint en `db/db.json`.
-
-### Galetes (`/galeta`)
-
-| Mètode | Ruta          | Descripció                  |
-|--------|---------------|-----------------------------|
-| POST   | `/galeta`     | Crea una nova galeta        |
-| PUT    | `/galeta/:id` | Modifica una galeta existent|
-| DELETE | `/galeta/:id` | Esborra una galeta          |
-
-### Pastissos (`/pastis`)
-
-| Mètode | Ruta          | Descripció                  |
-|--------|---------------|-----------------------------|
-| POST   | `/pastis`     | Crea un nou pastís          |
-| PUT    | `/pastis/:id` | Modifica un pastís existent |
-| DELETE | `/pastis/:id` | Esborra un pastís           |
-
-### Torrons (`/torro`)
-
-| Mètode | Ruta          | Descripció                  |
-|--------|---------------|-----------------------------|
-| POST   | `/torro`      | Crea un nou torró           |
-| PUT    | `/torro/:id`  | Modifica un torró existent  |
-| DELETE | `/torro/:id`  | Esborra un torró            |
-
----
-
-## 4. viewRouter
-
-Gestiona les rutes de **vistes HTML** i mostra dades segons l'usuari autenticat (`req.session.user`).
-
-### Galetes
-
-| Mètode | Ruta            | Descripció                         |
-|--------|----------------|-------------------------------------|
-| GET    | `/galetes`     | Mostra totes les galetes            |
-| GET    | `/galeta/:id`  | Mostra el detall d'una galeta       |
-| GET    | `/nova-galeta` | Mostra el formulari per crear galeta|
-
-### Pastissos
-
-| Mètode | Ruta            | Descripció                          |
-|--------|-----------------|-------------------------------------|
-| GET    | `/pastissos`    | Mostra tots els pastissos           |
-| GET    | `/pastis/:id`   | Mostra el detall d'un pastís        |
-| GET    | `/nou-pastis`   | Mostra el formulari per crear pastís|
-
-### Torrons
-
-| Mètode | Ruta           | Descripció                         |
-|--------|---------------|-------------------------------------|
-| GET    | `/torrons`    | Mostra tots els torrons             |
-| GET    | `/torro/:id`  | Mostra el detall d'un torró         |
-| GET    | `/nou-torro`  | Mostra el formulari per crear torró |
-
-- Les rutes estan protegides: si `user` no està a la sessió, retorna **403 Accés no autoritzat**.
-- Les dades es llegeixen de `db/db.json`.
-
----
-
-## Resum
-
-- `mainRouter` → punt central per a l’API  
-- `authRouter` → login, registre, logout amb JWT  
-- `productsRouter` → CRUD per galetes, pastissos, torrons  
-- `viewRouter` → vistes HTML protegides per sessió
-
-## Tecnologies i eines
-
-- **Express** → framework per crear servidors web.
-- **EJS** → motor de plantilles per renderitzar HTML dinàmic.
-- **body-parser / express.json()** → per llegir dades que arriben en el body d'una petició (ex: formularis).
-- **Nodemon** → reinicia automàticament el servidor quan canvies codi.
-- **jsonwebtoken, cookie-parser, db-local** → per gestionar login amb tokens, cookies i base de dades local.
-
----
-
-## Exemple de funcionament
-
-- `index.js` monta un servidor Express.
-- Quan entres a `/`, renderitza la vista `login.ejs`.
-- Hi ha rutes per a registrar usuaris (`/register`) o fer login.
-- Els formularis del navegador envien dades al servidor amb `fetch`.
-
-© 2025 Silvia Serra
+    
