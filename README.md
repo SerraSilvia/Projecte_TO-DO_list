@@ -84,4 +84,124 @@
     - Organització d'arxius.
     - Com editar tasques.
 
-    
+### Daily scrum 8:
+- Data: 27/10/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Reestructuració de projecte.
+    - Tria de tecnologies.
+
+### Daily scrum 9:
+- Data: 28/10/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Creació de codis.
+    - Fer Sprint 1 i 2 de cop.
+
+### Daily scrum 10:
+- Data: 04/11/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Creació de codis.
+    - Tria de css.
+
+### Retrospectiva Sprint nº2 21/10 - 08/11
+
+    - Sprint Retrospective grupal: 
+    - Quin era el MVP proposat a l’inici de l’sprint? Quin MVP podem mostrar al final del sprint? 
+       //TO-DO rellenar
+    - Millor o pitjor de lo esperat?	
+        Pitjor. Falta de temps.				
+    - Què canviaries per millorar de cara al proper Sprint?
+        Alguna sessió més, ens falta temps.
+
+- Sprint Review Silvia:
+    - Què ha anat bé? 
+      La comunicació amb el company. 		
+    - Què cal millorar? 
+      La distribució de tasques.
+    - Què he après?	
+      La gestió de proofhub i fer servir altres tecnologies com Google AI i copilot.
+    - En què trobo dificultats?
+      En el temps.
+
+- Sprint Review Pol:
+    - Què ha anat bé? 
+    - Què cal millorar? 
+    - Què he après?	
+    - En què trobo dificultats?
+
+## Sprint 3:
+
+### Daily scrum 11:
+- Data: 11/11/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Distribució de tasques.
+    - Distribució de proofhub.
+
+
+### Daily scrum 11:
+- Data: 11/11/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Distribució de tasques.
+    - Distribució de proofhub.
+
+
+### Daily scrum 11:
+- Data: 11/11/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Arreglar proofHub.
+    - Creació de codi.
+    - Distribució de tasques
+
+
+### Retrospectiva Sprint nº3 11/11 - 22/11
+
+    - Sprint Retrospective grupal: 
+    - Quin era el MVP proposat a l’inici de l’sprint? Quin MVP podem mostrar al final del sprint? 
+        //TO-DO rellenar
+    - Millor o pitjor de lo esperat?	
+        Millor ja que anem fent junt is ens anem coordinant.			
+    - Què canviaries per millorar de cara al proper Sprint?
+        Alguna sessió més junts, ens falta temps.
+
+- Sprint Review Silvia:
+    - Què ha anat bé? 
+      La comunicació amb el company. 		
+    - Què cal millorar? 
+      La distribució de tasques, assistència.
+    - Què he après?	
+      Millor estructuració de codi.
+    - En què trobo dificultats?
+      En el temps i la coordinació.
+
+- Sprint Review Pol:
+    - Què ha anat bé? 
+    - Què cal millorar? 
+    - Què he après?	
+    - En què trobo dificultats?
+
+
+## Sprint 4:
+
+### Daily scrum 12:
+- Data: 24/11/2025
+- Assistents: Pol Paredes, Silvia Serra.
+- Temes tractats:
+    - Distribució de tasques.
+    - Distribució de proofhub.
+
+### Daily scrum 12:
+- Data: 25/11/2025
+- Assistents: Silvia Serra.
+- Temes tractats:
+
+
+
+
+
+
+

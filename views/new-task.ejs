@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestor de Tareas - Nueva Tarea</title>
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo-header">
+        <h1>Gestor de Tareas</h1>
+      </div>
+      <button id="logout" class="btn">Cerrar sesión</button>
+    </nav>
+  </header>
+
+  <div class="content">
+    <div class="page-header">
+      <a href="/" class="back-button">⬅️ Volver a la Lista</a>
+      <h1>✨ Crear Nueva Tarea ✨</h1>
+    </div>
+
+    <div class="list-main-content">
+      <div class="list-card">
+        <form id="newTaskForm">
+          <div class="form-group">
+            <label for="titol">📝 Título de la tarea:</label>
+            <input type="text" id="titol" name="titol" placeholder="Título de la tarea" required />
+          </div>
+
+          <div class="form-group">
+            <label for="descripcio">📄 Descripción:</label>
+            <textarea id="descripcio" name="descripcio" rows="4" placeholder="Descripción de la tarea"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="estat">Estado:</label>
+            <select id="estat" name="estat" required>
+              <option value="pendiente" selected>Pendiente</option>
+              <option value="en progreso">En progreso</option>
+              <option value="completada">Completada</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="prioritat">Prioridad:</label>
+            <select id="prioritat" name="prioritat" required>
+              <option value="baja">Baja</option>
+              <option value="media" selected>Media</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ubicacio">Ubicación:</label>
+            <input type="text" id="ubicacio" name="ubicacio" placeholder="Ubicación de la tarea" />
+          </div>
+
+          <div class="form-group">
+            <label for="data_limit">Fecha Límite:</label>
+            <input type="date" id="data_limit" name="data_limit" />
+          </div>
+
+          <div class="form-buttons">
+            <button type="submit" class="btn btn-success">Crear Tarea</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const logoutButton = document.getElementById("logout");
+    const newTaskForm = document.getElementById("newTaskForm");
+
+    logoutButton?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        const res = await fetch("/api/auth/logout", { method: "POST", headers: { "Content-Type": "application/json" } });
+        if (res.ok) window.location.href = "/";
+        else alert("Error al cerrar sesión.");
+      } catch {
+        alert("Error de red al intentar cerrar sesión.");
+      }
+    });
+
+    newTaskForm?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(newTaskForm);
+      const taskData = Object.fromEntries(formData.entries());
+      try {
+        const res = await fetch("/api/tasks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(taskData),
+        });
+        if (res.ok) {
+          alert("Tarea creada correctamente.");
+          window.location.href = "/";
+        } else alert("Error al crear la tarea.");
+      } catch {
+        alert("Error de red al crear la tarea.");
+      }
+    });
+  </script>
+</body>
+</html>

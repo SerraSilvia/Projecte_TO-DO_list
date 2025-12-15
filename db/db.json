@@ -145,6 +145,12 @@
       "nom": "comprar patatas",
       "descripcio": "quiero una bolsa de jumpers",
       "tasks": []
+    },
+    {
+      "id_list": 5,
+      "nom": "comprar hoy",
+      "descripcio": "ir a comprar a mercadona",
+      "tasks": []
     }
   ]
 }
